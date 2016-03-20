@@ -7,7 +7,7 @@ describe('app', function () {
 
     });
 
-    describe('isPalindrome', function () {
+    xdescribe('isPalindrome', function () {
 
         describe('toHaveBeenCalled', function () {
 
@@ -30,7 +30,7 @@ describe('app', function () {
         });
     });
 
-    describe('vowelCount', function () {
+    xdescribe('vowelCount', function () {
 
         describe('toHaveBeenCalled', function () {
 
@@ -52,5 +52,24 @@ describe('app', function () {
 
         });
     });
+
+    describe('generateMessage', function(){
+
+        it('should get a true number', function() {
+            expect(app.generateMessage('a')).toEqual({vowel : 1, palindrome : true});
+        });
+        it('should get a true number', function() {
+            expect(app.generateMessage('d')).toEqual({vowel : 0, palindrome : true});
+        });
+        it('should get a real number', function() {
+            expect(app.generateMessage('a5a')).toEqual({vowel : 2, palindrome : true});
+
+        });
+        it('should geta a real number', function() {
+            expect(app.generateMessage('101')).toEqual({vowel : 0, palindrome : true});
+        })
+    })
 });
+
+
 
