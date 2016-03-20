@@ -67,7 +67,17 @@ describe('app', function () {
         });
         it('should geta a real number', function() {
             expect(app.generateMessage('101')).toEqual({vowel : 0, palindrome : true});
-        })
+        });
+
+        it('should get a false palindromes value', function() {
+            expect(app.generateMessage('123abc')).toEqual({vowel : 1, palindrome : false});
+        });
+
+        it('should get a false palindromes value', function() {
+            expect(app.generateMessage('123ccc')).toEqual({vowel : 0, palindrome : false});
+        });
+
+
     })
 });
 
