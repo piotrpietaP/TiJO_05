@@ -14,6 +14,9 @@
                 console.log('Piotr Pięta');
                 console.log(carPortal.credentials);
             };
+            this.logout = function () {
+                this.credentials = {};
+            };
         }
     }
 })();
