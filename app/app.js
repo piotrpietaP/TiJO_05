@@ -11,6 +11,8 @@
             this.login = function (username, password) {
                 this.credentials.username = username;
                 this.credentials.password = password;
+                console.log('Piotr Pięta');
+                console.log(carPortal.credentials);
             };
         }
     }
