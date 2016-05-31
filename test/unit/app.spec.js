@@ -12,6 +12,8 @@ describe('app', function () {
             it('should defined model', function () {
                 expect(car.model).toBeDefined();
             });
+
+            /* One change */
             it('should defined year', function () {
                 expect(car.year).toBeDefined();
             });
