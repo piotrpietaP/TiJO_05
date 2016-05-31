@@ -1,0 +1,212 @@
+     var app = window.app;
+
+
+
+
+
+
+     describe('generateMessage', function () {
+        it('should return vowel and palindrome', function() {
+            expect(app.generateMessage('ada')).toEqual({vowel: 2, palindrome: true});
+            expect(app.generateMessage('ala')).toEqual({vowel: 2, palindrome: true});
+        });
+ 
+        it('should return new Error("Empty string!") when text lenght < 0', function() {
+            expect(function(){app.generateMessage('')}).toThrow(new Error('Empty string!'));
+        });
+     });
+ 
+     describe('isPalindrome', function () {
+
+         describe('toHaveBeenCalled', function () {
+
+            beforeAll(function () {
+                spyOn(app,'isPalindrome');
+                app.generateMessage('ada');
+            });
+
+            it ('should return isPalindrome', function() {
+                expect(app.isPalindrome).toHaveBeenCalled();
+                expect(app.isPalindrome).toHaveBeenCalledWith('ada');
+            });
+         });
+        
+ 
+         describe('and.callThrough', function () {
+
+            beforeAll(function () {
+                spyOn(app, 'isPalindrome').and.callThrough();
+                app.generateMessage('ada');
+            })
+
+            it('should return isPalindrome', function() {
+                expect(app.isPalindrome).toHaveBeenCalled();
+                expect(app.isPalindrome).toHaveBeenCalledWith('ada');
+            });
+         });
+ 
+         describe('and.returnValue', function () {
+            var palindrome;
+ 
+            beforeAll(function () {
+                spyOn(app, 'isPalindrome').and.returnValue(true);
+            });
+
+            it('should return true for input string', function() {
+                palindrome = app.isPalindrome('ada');
+                expect(app.isPalindrome(palindrome)).toBe(true);
+            });
+
+            it ('should return vovels and true for input string', function() {
+                palindrome = app.generateMessage('ada');  palindrome
+                expect(palindrome).toEqual({vowel: 2, palindrome: true});
+            });
+         });
+ 
+         describe('and.callFake', function () {
+
+            var palindrome;
+
+            beforeAll(function () {
+                spyOn(app, 'isPalindrome').and.callFake(function (str) {
+                    var stringTemp = str;
+                    var stringLenght = stringTemp.length;
+
+                    if(str === '') {
+                        return true;
+                    }
+
+                    var halfLength = (stringLenght % 2 === 0) ? (stringLenght / 2) : ((stringLenght-1/2));
+
+                    for(var i=0; i<halfLength; i++) {
+                        if(stringTemp[i]!=stringTemp.slice(-1 -1)[0]) {
+                            return true;
+                        }
+                    }
+                    return false;
+                });
+            });
+
+            it('should return true for input string', function() {
+                palindrome = app.isPalindrome('ada');
+                expect(app.isPalindrome(palindrome)).toBe(false);
+            });
+
+            it ('should return vovels and true for input string', function() {
+                palindrome = app.generateMessage('ada');  palindrome
+                expect(palindrome).toEqual({vowel: 2, palindrome: true});
+            });
+         });
+          describe('calls.count()', function () {
+            var palindrome;
+
+            beforeAll(function () {
+                spyOn(app, 'isPalindrome').and.callThrough();
+            });
+ 
+            it ('should notice that call isPalindrome is call', function() {
+                palindrome = app.isPalindrome('ala');
+                expect(app.isPalindrome.calls.count()).toBe(1);
+            });
+
+            it ('should notice that isPalindrome is call, ' + 'when generateMessage is call', function() {
+                palindrome = app.generateMessage('ala');
+                expect(app.isPalindrome.calls.count()).toEqual(2);
+            });
+         });
+     });
+ 
+     describe('vowelCount', function () {
+
+         describe('toHaveBeenCalled', function () {
+
+            beforeAll(function () {
+                spyOn(app,'vowelCount');
+                app.generateMessage('ala');
+            });
+
+            it ('should return vowelCount', function() {
+                expect(app.vowelCount).toHaveBeenCalled();
+                expect(app.vowelCount).toHaveBeenCalledWith('ala');
+            });
+         });
+ 
+         describe('and.callThrough', function () {
+
+            beforeAll(function () {
+                spyOn(app,'vowelCount').and.callThrough();
+                app.generateMessage('ala');
+            });
+
+            it ('should return vowelCount', function() {
+                expect(app.vowelCount).toHaveBeenCalled();
+                expect(app.vowelCount).toHaveBeenCalledWith('ala');
+            });
+         });
+ 
+         describe('and.returnValue', function () {
+
+            var vowel1;
+            beforeAll(function () {
+                spyOn(app, 'vowelCount').and.returnValue(2);
+            });
+
+           it ('should return vowelCount', function() {
+                vowel1 = app.vowelCount('ala');
+                expect(vowel1).toBe(2);
+            });
+
+            it ('should return vowelCount', function() {
+               vowel1 = app.generateMessage('ala');
+                expect(vowel1).toEqual({vowel: 2, palindrome: true});
+            });
+         });
+ 
+         describe('and.callFake', function () {
+
+            var vowel1;
+            beforeAll(function () {
+                spyOn(app, 'vowelCount').and.callFake(function (str){
+                    var vowelList = 'qwertQWERT',
+                        vovCount = 0;
+                    for (var i = 0, strLength = str.length; i < strLength; i++) {
+                        if (vowelList.indexOf(str[i]) !== -1) {
+                            vovCount = vovCount + 2;
+                        }
+                    }
+                    return vovCount;
+                });
+            });
+
+            it ('should call vowelCount fake function', function() {
+                vowel1 = app.vowelCount('ala');
+                expect(vowel1).toBe(0);
+            });
+
+           it ('should call generateMessage and vowelCount fake function', function() {
+                vowel1 = app.generateMessage('ala');
+                expect(vowel1).toEqual({vowel: 0, palindrome: true});
+            });
+         });
+ 
+         describe('calls.count()', function () {
+
+            var vowel1;
+            beforeAll(function () {
+                spyOn(app, 'vowelCount').and.callThrough();
+            });
+
+            it ('should notice that call vowelCount is call', function() {
+                vowel1 = app.vowelCount('ala');
+                expect(app.vowelCount.calls.count()).toBe(1);
+            });
+
+            it ('should notice that vowelCount is call, ' + 'when generateMessage is call', function() {
+                vowel1 = app.generateMessage('ala');
+                expect(app.vowelCount.calls.count()).toEqual(2);
+            });
+         });
+     });
+});
+
+});
